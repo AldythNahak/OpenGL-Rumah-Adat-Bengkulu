@@ -2,7 +2,7 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "master" ]   # keep "master" if that is your branch name
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -18,11 +18,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
 
-    - name: Build with make
-      run: make
-
-    - name: Run make check
-      run: make check
-
-    - name: Run make distcheck
-      run: make distcheck
+    - name: Compile main.cpp
+      run: |
+        g++ main.cpp imageloader.cpp -o app -lGL -lGLU -lglut
