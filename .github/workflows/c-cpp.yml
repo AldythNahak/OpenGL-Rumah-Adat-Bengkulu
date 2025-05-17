@@ -11,23 +11,20 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Download and install MSYS2
       shell: powershell
       run: |
-        $msys2_url = "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20230506.exe"
+        $msys2_url = "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20230525.exe"
         Invoke-WebRequest -Uri $msys2_url -OutFile msys2.exe
         Start-Process msys2.exe -ArgumentList "/S" -Wait
 
     - name: Update MSYS2 and install packages
       shell: bash
       run: |
-        # Update system twice to complete full upgrade
         pacman -Syuu --noconfirm
         pacman -Syuu --noconfirm || true
-        # Install GCC, freeglut, and make
         pacman -S --noconfirm mingw-w64-x86_64-gcc mingw-w64-x86_64-freeglut mingw-w64-x86_64-make
 
     - name: Build project
