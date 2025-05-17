@@ -1,29 +1,39 @@
-name: C/C++ CI
+name: Build with MSYS2 on Windows
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [master]
   pull_request:
-    branches: [ "master" ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
-    - name: Install MinGW (g++ compiler)
+    - name: Install MSYS2
       shell: powershell
       run: |
-        choco install mingw
+        Invoke-WebRequest -Uri "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20230501.exe" -OutFile msys2.exe
+        Start-Process msys2.exe -ArgumentList "/S" -Wait
 
-    - name: Download freeglut
-      shell: powershell
+    - name: Update MSYS2 and install packages
+      shell: bash
       run: |
-        Invoke-WebRequest -Uri "https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.1/freeglut-3.2.1-bin.zip" -OutFile freeglut.zip
-        Expand-Archive -Path freeglut.zip -DestinationPath freeglut
+        # Update package database and base packages
+        pacman -Syuu --noconfirm
 
-    - name: Build with Make
-      shell: cmd
-      run: make
+        # Sometimes requires 2 runs, so run again if needed
+        pacman -Syuu --noconfirm || true
+
+        # Install gcc, freeglut, make
+        pacman -S --noconfirm mingw-w64-x86_64-gcc mingw-w64-x86_64-freeglut mingw-w64-x86_64-make
+
+    - name: Build project
+      shell: bash
+      run: |
+        export PATH="/mingw64/bin:$PATH"
+        make
