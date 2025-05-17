@@ -1,4 +1,4 @@
-name: C++ OpenGL CI
+name: Build C++ OpenGL (main.cpp only)
 
 on:
   push:
@@ -11,18 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install OpenGL and build tools
+    - name: Install OpenGL libraries
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
 
-    - name: Confirm g++ is installed
-      run: which g++
-
-    - name: Compile project
+    - name: Compile main.cpp
       run: |
         mkdir -p build
-        g++ -o build/app main.cpp -lGL -lGLU -lglut
+        g++ -o build/main main.cpp -lGL -lGLU -lglut
