@@ -25,4 +25,4 @@ jobs:
     - name: Compile project
       run: |
         mkdir -p build
-        g++ -o build/app main.cpp imageloader.cpp -lGL -lGLU -lglut
+        g++ -o build/app main.cpp -lGL -lGLU -lglut
