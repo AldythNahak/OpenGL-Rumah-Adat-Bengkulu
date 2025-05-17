@@ -1,23 +1,22 @@
-name: C/C++ CI
+name: Build OpenGL App on Windows
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-    - name: Install build dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+      - name: Install freeglut via Chocolatey
+        run: choco install freeglut
 
-    - name: Compile main.cpp
-      run: |
-        g++ main.cpp imageloader.cpp -o app -lGL -lGLU -lglut
+      - name: Compile with g++
+        shell: cmd
+        run: |
+          g++ main.cpp imageloader.cpp -o app.exe -lfreeglut -lopengl32
