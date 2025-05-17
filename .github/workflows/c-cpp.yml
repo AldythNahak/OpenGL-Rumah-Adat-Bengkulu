@@ -24,6 +24,8 @@ jobs:
 
     - name: Build project
       shell: bash
+      working-directory: src  # or your source folder name
       run: |
         export PATH="/mingw64/bin:$PATH"
         make
+
