@@ -1,10 +1,10 @@
-name: C/C++ CI
+name: C++ OpenGL CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -12,12 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install OpenGL and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+
+    - name: Compile C++ OpenGL program
+      run: |
+        mkdir -p build
+        g++ -o build/app *.cpp -lGL -lGLU -lglut
