@@ -1,4 +1,4 @@
-name: Build with MSYS2 on Windows
+name: Build with MSYS2
 
 on:
   push:
@@ -13,19 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Download and install MSYS2
-      shell: powershell
-      run: |
-        $msys2_url = "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20230525.exe"
-        Invoke-WebRequest -Uri $msys2_url -OutFile msys2.exe
-        Start-Process msys2.exe -ArgumentList "/S" -Wait
-
-    - name: Update MSYS2 and install packages
-      shell: bash
-      run: |
-        pacman -Syuu --noconfirm
-        pacman -Syuu --noconfirm || true
-        pacman -S --noconfirm mingw-w64-x86_64-gcc mingw-w64-x86_64-freeglut mingw-w64-x86_64-make
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v3
+      with:
+        update: true
+        install: >
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-freeglut
+          mingw-w64-x86_64-make
 
     - name: Build project
       shell: bash
