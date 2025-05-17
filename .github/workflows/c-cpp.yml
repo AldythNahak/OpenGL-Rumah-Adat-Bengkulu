@@ -1,0 +1,28 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "master" ]   # keep "master" if that is your branch name
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+
+    - name: Build with make
+      run: make
+
+    - name: Run make check
+      run: make check
+
+    - name: Run make distcheck
+      run: make distcheck
