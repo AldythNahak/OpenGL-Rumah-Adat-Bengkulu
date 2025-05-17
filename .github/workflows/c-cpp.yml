@@ -21,8 +21,8 @@ jobs:
     - name: Download freeglut
       shell: powershell
       run: |
-        Invoke-WebRequest -Uri "https://sourceforge.net/projects/freeglut/files/freeglut/3.2.1/freeglut-3.2.1-bin.zip" -OutFile freeglut.zip
-        Expand-Archive freeglut.zip -DestinationPath freeglut
+        Invoke-WebRequest -Uri "https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.1/freeglut-3.2.1-bin.zip" -OutFile freeglut.zip
+        Expand-Archive -Path freeglut.zip -DestinationPath freeglut
 
     - name: Build with Make
       shell: cmd
