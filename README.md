@@ -34,3 +34,21 @@ make
 ./main.exe
 
 g++ main.cpp imageloader.cpp -o main.exe -lglu32 -lopengl32 -lfreeglut
+```
+
+## 📖 Goal
+
+This repository serves as a learning log, a reference for University Class Homework, and a contribution to the open-source learning community.
+
+---
+
+## 🧑‍💻 Author
+
+**Aldyth Nahak**  
+[LinkedIn](https://linkedin.com/in/aldythnahak) | [GitHub](https://github.com/AldythNahak)
+
+---
+
+## ⭐️ Contribute or Follow
+
+Feel free to fork, clone, or star this repo if you find it helpful!
